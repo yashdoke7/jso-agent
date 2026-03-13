@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# JSO Agent — Job Search Optimization AI Agent
+### AariyaTech Corp · Career Intelligence Platform · Phase 2
 
-## Getting Started
+A live AI agent prototype built for the **Agentic JSO Phase-2 Assignment**.  
+Takes a job seeker's preferences → generates optimized **Boolean** and **X-Ray** queries for **6 job platforms** using AI.
 
-First, run the development server:
+## 🎯 Platforms Supported
+
+| Platform | Boolean Query | X-Ray (Google) |
+|----------|:---:|:---:|
+| LinkedIn | ✅ | ✅ |
+| Indeed | ✅ | ✅ |
+| Naukri | ✅ | ✅ |
+| Glassdoor | ✅ | ✅ |
+| Reed | ✅ | ✅ |
+| TotalJobs | ✅ | ✅ |
+
+## 🛠 Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Frontend | Next.js 15 + React + Tailwind CSS |
+| AI (active) | Google Gemini 2.5 Flash Lite Preview (free tier) |
+| AI (architecture) | Anthropic Claude Opus 4.6 (as per JSO spec) |
+| Deployment | Vercel |
+| Language | TypeScript |
+
+> The codebase supports **both** Gemini and Claude — switch via `.env` (see `.env.example`).  
+> Production architecture recommendation: Claude Opus 4.6 as per JSO Phase-2 spec.
+
+## 🚀 Run Locally
 
 ```bash
+# 1. Clone
+git clone <repo-url> && cd jso-agent
+
+# 2. Install
+npm install
+
+# 3. Set up env (copy example and add your key)
+cp .env.example .env.local
+# Edit .env.local → add your GEMINI_API_KEY (free at aistudio.google.com)
+# Optional: set GEMINI_MODEL (default: gemini-2.5-flash-lite-preview)
+
+# 4. Run
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
+Open http://localhost:3000
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🌐 Deploy to Vercel
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Push repo to GitHub
+2. Import at [vercel.com/new](https://vercel.com/new)
+3. Add `GEMINI_API_KEY` in **Environment Variables**
+4. Deploy ✅
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📋 Assignment Reference
 
-## Learn More
+- **Part B**: Job Search Optimization Agent
+- **Dashboard**: User Dashboard
+- **Problem**: Users struggle with Boolean/X-Ray search syntax
+- **Solution**: AI agent auto-generates platform-specific queries from plain English input
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+Built by Yash Doke · AariyaTech Internship Assignment 2026
