@@ -61,5 +61,26 @@ Open http://localhost:3000
 - **Problem**: Users struggle with Boolean/X-Ray search syntax
 - **Solution**: AI agent auto-generates platform-specific queries from plain English input
 
+## Why This Stands Out
+
+- Focuses on a real, repeatable job-seeker pain point instead of a vague AI assistant use case
+- Fits directly into the current JSO stack and dashboard model
+- Supports platform efficiency, consultant assistance, auditability, and licensing visibility
+- Can evolve from prototype to governed product with minimal architectural change
+
+## Suggested Next Iteration
+
+- Make each platform output more distinct and strategy-aware
+- Add explanation fields for why each query was generated
+- Add strict, balanced, and broad query variants
+- Add lightweight feedback and analytics capture for dashboard insights
+
+## Documentation Pack
+
+- Architecture and data flow: [docs/ARCHITECTURE_AND_DATAFLOW.md](docs/ARCHITECTURE_AND_DATAFLOW.md)
+- Evaluation metrics: [docs/EVALUATION_METRICS.md](docs/EVALUATION_METRICS.md)
+- Submission package checklist and email template: [SUBMISSION_PACKAGE.md](SUBMISSION_PACKAGE.md)
+- Full assignment answers are maintained in the submission Google Doc (kept private per assignment confidentiality terms)
+
 ---
 Built by Yash Doke · AariyaTech Internship Assignment 2026
