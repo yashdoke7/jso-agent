@@ -214,27 +214,24 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900">
       {/* ── header ── */}
-      <header className="border-b border-white/10 px-6 py-4">
+      <header className="border-b border-white/10 px-6 py-4 backdrop-blur-sm bg-white/[0.02]">
         <div className="max-w-5xl mx-auto flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-blue-500 flex items-center justify-center text-white font-bold text-sm">
-            J
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-blue-500/20">
+            JSO
           </div>
           <div>
-            <h1 className="text-white font-bold text-lg leading-none">JSO Agent</h1>
-            <p className="text-blue-300 text-xs">Job Search Optimization · Powered by Gemini</p>
+            <h1 className="text-white font-bold text-lg leading-none tracking-tight">JSO Agent</h1>
+            <p className="text-blue-300/70 text-xs mt-0.5">AI-Powered Job Search Optimization</p>
           </div>
-          <div className="ml-auto flex items-center gap-2">
+          <div className="ml-auto flex items-center gap-3">
             {history.length > 0 && (
               <button
                 onClick={() => setShowHistory(!showHistory)}
-                className="text-xs bg-white/10 hover:bg-white/20 text-blue-200 px-3 py-1.5 rounded-lg transition-colors"
+                className="text-xs bg-white/[0.06] hover:bg-white/[0.12] text-blue-200 px-3 py-1.5 rounded-lg transition-colors border border-white/[0.06]"
               >
                 📋 History ({history.length})
               </button>
             )}
-            <span className="text-xs bg-blue-500/20 text-blue-300 border border-blue-500/30 px-2 py-1 rounded-full">
-              AariyaTech · Phase 2
-            </span>
           </div>
         </div>
       </header>
@@ -264,16 +261,19 @@ export default function Home() {
         )}
 
         {/* ── hero ── */}
-        <div className="text-center space-y-2">
-          <h2 className="text-3xl font-bold text-white">AI-Powered Job Search Query Generator</h2>
-          <p className="text-blue-200 text-base max-w-2xl mx-auto">
-            Enter your job preferences and get optimized Boolean &amp; X-Ray search queries for
-            LinkedIn, Indeed, Naukri, Glassdoor, Reed, and TotalJobs — instantly.
+        <div className="text-center space-y-3">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
+            Generate Job Search Queries<br />
+            <span className="text-blue-400">in Seconds</span>
+          </h2>
+          <p className="text-blue-200/70 text-base max-w-xl mx-auto leading-relaxed">
+            Enter your preferences — get optimized Boolean &amp; X-Ray queries
+            for LinkedIn, Indeed, Naukri, Glassdoor, Reed, and TotalJobs.
           </p>
         </div>
 
         {/* ── form ── */}
-        <form onSubmit={handleSubmit} className="bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="bg-white/[0.04] backdrop-blur-sm border border-white/[0.08] rounded-2xl p-6 sm:p-8 space-y-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm text-blue-200 mb-1 font-medium">
@@ -356,14 +356,14 @@ export default function Home() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-blue-800 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-xl transition-colors text-sm flex items-center justify-center"
+            className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 disabled:from-blue-800 disabled:to-blue-800 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-xl transition-all text-sm flex items-center justify-center shadow-lg shadow-blue-600/20 hover:shadow-blue-500/30"
           >
             {loading ? (
               <>
-                <Spinner /> Generating queries with Gemini…
+                <Spinner /> Generating queries…
               </>
             ) : (
-              "✨ Generate Job Search Queries"
+              "Generate Queries →"
             )}
           </button>
           {error && <p className="text-red-400 text-sm text-center">{error}</p>}
@@ -405,8 +405,8 @@ export default function Home() {
         )}
       </main>
 
-      <footer className="text-center py-6 text-white/20 text-xs border-t border-white/5 mt-10">
-        JSO Agent · AariyaTech Corp · Career Intelligence Platform Phase 2 · Built with Gemini AI
+      <footer className="text-center py-6 text-white/15 text-xs border-t border-white/5 mt-10">
+        JSO Agent · Built with Gemini AI
       </footer>
     </div>
   );
