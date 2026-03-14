@@ -14,14 +14,16 @@ The Job Search Optimization Agent converts user intent into platform-specific Bo
 
 ## Request Lifecycle
 
-1. User submits role, skills, location, experience, and exclusions.
-2. Frontend calls POST /api/generate-queries.
+1. User submits role, skills, location, experience, exclusions, and query strength.
+2. Frontend calls POST /api/generate-queries with form data and strength selection.
 3. API validates required fields and policy constraints.
-4. API sends structured prompt to model.
-5. Model returns structured JSON.
-6. API parses and validates JSON shape.
-7. Frontend renders per-platform query cards and tips.
-8. Usage telemetry is recorded (proposed for next iteration).
+4. API selects the appropriate strength instruction (strict, balanced, or broad).
+5. API sends structured prompt to model requesting queries and per-platform explanations.
+6. Model returns structured JSON with queries, explanations, and tips.
+7. API parses and validates JSON shape.
+8. Frontend renders per-platform query cards with copy, open-in-Google, and explanation panels.
+9. Result is persisted to localStorage search history (up to 20 entries).
+10. Usage telemetry is recorded (proposed for next iteration).
 
 ## Security and Governance Controls
 
@@ -38,15 +40,17 @@ flowchart LR
     A[User Dashboard Input] --> B[Next.js Frontend]
     B --> C[POST /api/generate-queries]
     C --> D[Validation and Policy Guard]
-    D --> E[Gemini Model Inference]
-    E --> F[JSON Parse and Schema Check]
-    F --> G[UI Query Cards and Tips]
-    F --> H[(Supabase Logs and Metrics)]
+    D --> E[Strength Selection: strict / balanced / broad]
+    E --> F[Gemini Model Inference]
+    F --> G[JSON Parse and Schema Check]
+    G --> H[UI Query Cards, Explanations, and Tips]
+    G --> I[(Supabase Logs and Metrics)]
+    H --> J[(localStorage Search History)]
 ```
 
 ## Next Iteration Upgrades
 
-- Platform-specific strategy variants: strict, balanced, broad.
-- Explanation fields per platform for transparency.
-- Feedback loop: useful or not useful signals.
+- Feedback loop: useful or not useful signals per query.
 - Admin analytics endpoint for model quality tracking.
+- Saved query templates for repeat job seekers.
+- Server-side search history via Supabase for cross-device persistence.

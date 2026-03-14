@@ -6,20 +6,29 @@ Takes a job seeker's preferences → generates optimized **Boolean** and **X-Ray
 
 ## 🎯 Platforms Supported
 
-| Platform | Boolean Query | X-Ray (Google) |
-|----------|:---:|:---:|
-| LinkedIn | ✅ | ✅ |
-| Indeed | ✅ | ✅ |
-| Naukri | ✅ | ✅ |
-| Glassdoor | ✅ | ✅ |
-| Reed | ✅ | ✅ |
-| TotalJobs | ✅ | ✅ |
+| Platform | Boolean Query | X-Ray (Google) | Direct Open |
+|----------|:---:|:---:|:---:|
+| LinkedIn | ✅ | ✅ | ✅ |
+| Indeed | ✅ | ✅ | ✅ |
+| Naukri | ✅ | ✅ | ✅ |
+| Glassdoor | ✅ | ✅ | ✅ |
+| Reed | ✅ | ✅ | ✅ |
+| TotalJobs | ✅ | ✅ | ✅ |
+
+## ✨ Key Features
+
+- **Query Strength Variants** — choose Strict, Balanced, or Broad to control precision vs. recall
+- **Per-Platform Explanations** — every generated query includes a short rationale (supports governance transparency)
+- **One-Click X-Ray Open** — open any X-Ray query directly in Google Search
+- **Copy All Queries** — export all 6 platform results at once
+- **Search History** — recent searches are saved locally and can be restored instantly
+- **Animated Loading** — smooth spinner UX during AI generation
 
 ## 🛠 Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
-| Frontend | Next.js 15 + React + Tailwind CSS |
+| Frontend | Next.js 16 + React 19 + Tailwind CSS |
 | AI (active) | Google Gemini 2.5 Flash Lite Preview (free tier) |
 | AI (architecture) | Anthropic Claude Opus 4.6 (as per JSO spec) |
 | Deployment | Vercel |
@@ -64,16 +73,11 @@ Open http://localhost:3000
 ## Why This Stands Out
 
 - Focuses on a real, repeatable job-seeker pain point instead of a vague AI assistant use case
+- Query strength variants (strict/balanced/broad) give users control over search strategy
+- Per-platform explanations support governance and transparency requirements
 - Fits directly into the current JSO stack and dashboard model
 - Supports platform efficiency, consultant assistance, auditability, and licensing visibility
 - Can evolve from prototype to governed product with minimal architectural change
-
-## Suggested Next Iteration
-
-- Make each platform output more distinct and strategy-aware
-- Add explanation fields for why each query was generated
-- Add strict, balanced, and broad query variants
-- Add lightweight feedback and analytics capture for dashboard insights
 
 ## Documentation Pack
 

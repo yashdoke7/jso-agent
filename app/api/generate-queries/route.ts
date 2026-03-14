@@ -38,7 +38,7 @@ function validateResultShape(data: unknown) {
 }
 
 export async function POST(req: NextRequest) {
-  const { jobTitle, skills, location, experience, exclusions } = await req.json();
+  const { jobTitle, skills, location, experience, exclusions, queryStrength } = await req.json();
 
   if (!jobTitle) {
     return NextResponse.json({ error: "Job title is required" }, { status: 400 });
@@ -48,6 +48,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "GEMINI_API_KEY not configured" }, { status: 500 });
   }
 
+  const strengthMap: Record<string, string> = {
+    strict:
+      "Generate STRICT / narrow queries. Use exact job titles, specific skills, required certifications. Prioritise precision over volume. Use AND heavily, limit OR usage.",
+    balanced:
+      "Generate BALANCED queries. Mix exact titles with common synonyms. Use a moderate combination of AND, OR, and NOT for a good precision-recall trade-off.",
+    broad:
+      "Generate BROAD / discovery queries. Use wide synonyms, related titles, and flexible skill groupings. Maximise recall — help the user discover opportunities they might not think of.",
+  };
+  const strengthInstruction = strengthMap[queryStrength] || strengthMap.balanced;
+
   const prompt = `You are an expert job search strategist. Generate optimized Boolean and X-Ray search queries for the following job seeker profile.
 
 Job Title: ${jobTitle}
@@ -56,9 +66,12 @@ Location: ${location || "Remote/Any"}
 Experience Level: ${experience || "Not specified"}
 Exclusions (words to avoid): ${exclusions || "None"}
 
+Query Strategy: ${strengthInstruction}
+
 Generate search queries for ALL SIX platforms below. For each platform, provide:
 1. A Boolean search query (using AND, OR, NOT, quotes, parentheses)
 2. An X-Ray search query (using site: operator for Google search)
+3. A short explanation (1-2 sentences) of WHY this query was structured this way — what makes it effective for this specific platform
 
 Platforms: LinkedIn, Indeed, Naukri, Glassdoor, Reed, TotalJobs
 
@@ -73,12 +86,12 @@ Rules:
 Respond ONLY with valid JSON in this exact structure, no markdown:
 {
   "platforms": [
-    { "name": "LinkedIn", "boolean": "...", "xray": "site:linkedin.com/jobs ..." },
-    { "name": "Indeed", "boolean": "...", "xray": "site:indeed.com ..." },
-    { "name": "Naukri", "boolean": "...", "xray": "site:naukri.com ..." },
-    { "name": "Glassdoor", "boolean": "...", "xray": "site:glassdoor.com ..." },
-    { "name": "Reed", "boolean": "...", "xray": "site:reed.co.uk ..." },
-    { "name": "TotalJobs", "boolean": "...", "xray": "site:totaljobs.com ..." }
+    { "name": "LinkedIn", "boolean": "...", "xray": "site:linkedin.com/jobs ...", "explanation": "..." },
+    { "name": "Indeed", "boolean": "...", "xray": "site:indeed.com ...", "explanation": "..." },
+    { "name": "Naukri", "boolean": "...", "xray": "site:naukri.com ...", "explanation": "..." },
+    { "name": "Glassdoor", "boolean": "...", "xray": "site:glassdoor.com ...", "explanation": "..." },
+    { "name": "Reed", "boolean": "...", "xray": "site:reed.co.uk ...", "explanation": "..." },
+    { "name": "TotalJobs", "boolean": "...", "xray": "site:totaljobs.com ...", "explanation": "..." }
   ],
   "tips": ["tip1", "tip2", "tip3"]
 }`;
