@@ -272,6 +272,23 @@ export default function Home() {
           </p>
         </div>
 
+        {/* ── how it works ── */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {[
+            { step: "1", title: "Enter Preferences", desc: "Job title, skills, location, and experience level" },
+            { step: "2", title: "Choose Strength", desc: "Strict for precision, Balanced for best mix, Broad for discovery" },
+            { step: "3", title: "Get Queries", desc: "Copy-paste ready Boolean & X-Ray queries for 6 platforms" },
+          ].map((s) => (
+            <div key={s.step} className="flex items-start gap-3 bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-3">
+              <span className="text-blue-400 font-bold text-lg leading-none mt-0.5">{s.step}</span>
+              <div>
+                <p className="text-white text-sm font-semibold">{s.title}</p>
+                <p className="text-blue-200/60 text-xs mt-0.5">{s.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
         {/* ── form ── */}
         <form onSubmit={handleSubmit} className="bg-white/[0.04] backdrop-blur-sm border border-white/[0.08] rounded-2xl p-6 sm:p-8 space-y-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

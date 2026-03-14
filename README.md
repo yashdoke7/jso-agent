@@ -37,6 +37,10 @@ Takes a job seeker's preferences → generates optimized **Boolean** and **X-Ray
 > The codebase supports **both** Gemini and Claude — switch via `.env` (see `.env.example`).  
 > Production architecture recommendation: Claude Opus 4.6 as per JSO Phase-2 spec.
 
+## 🚀 Live Demo
+
+**[https://jso-agent-lilac.vercel.app](https://jso-agent-lilac.vercel.app)**
+
 ## 🚀 Run Locally
 
 ```bash

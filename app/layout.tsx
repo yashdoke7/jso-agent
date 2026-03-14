@@ -15,7 +15,24 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "JSO Agent — AI Job Search Query Generator",
   description:
-    "AI-powered Job Search Optimization Agent for AariyaTech JSO Phase 2. Generates Boolean and X-Ray search queries for LinkedIn, Indeed, Naukri, Glassdoor, Reed, and TotalJobs.",
+    "Generate optimized Boolean and X-Ray search queries for LinkedIn, Indeed, Naukri, Glassdoor, Reed, and TotalJobs using AI.",
+  openGraph: {
+    title: "JSO Agent — AI Job Search Query Generator",
+    description:
+      "Enter your job preferences and get optimized Boolean & X-Ray queries for 6 major job platforms — instantly.",
+    url: "https://jso-agent-lilac.vercel.app",
+    siteName: "JSO Agent",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "JSO Agent — AI Job Search Query Generator",
+    description:
+      "Enter your job preferences and get optimized Boolean & X-Ray queries for 6 major job platforms — instantly.",
+  },
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
