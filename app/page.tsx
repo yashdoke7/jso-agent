@@ -154,6 +154,10 @@ export default function Home() {
   const [error, setError] = useState("");
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [showHistory, setShowHistory] = useState(false);
+  const [showResume, setShowResume] = useState(false);
+  const [resumeText, setResumeText] = useState("");
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [resumeParsing, setResumeParsing] = useState(false);
 
   useEffect(() => setHistory(loadHistory()), []);
 
@@ -200,6 +204,42 @@ export default function Home() {
     localStorage.removeItem(HISTORY_KEY);
   };
 
+  const handleResumeParse = async () => {
+    if (!resumeText.trim() && !resumeFile) return;
+    setResumeParsing(true);
+    setError("");
+    try {
+      let res: Response;
+      if (resumeFile) {
+        const formData = new FormData();
+        formData.append("file", resumeFile);
+        res = await fetch("/api/parse-resume", { method: "POST", body: formData });
+      } else {
+        res = await fetch("/api/parse-resume", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ resumeText }),
+        });
+      }
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to parse");
+      setForm((prev) => ({
+        ...prev,
+        jobTitle: data.jobTitle || prev.jobTitle,
+        skills: data.skills || prev.skills,
+        location: data.location || prev.location,
+        experience: data.experience || prev.experience,
+      }));
+      setShowResume(false);
+      setResumeText("");
+      setResumeFile(null);
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setResumeParsing(false);
+    }
+  };
+
   const copyAll = () => {
     if (!result) return;
     const text = result.platforms
@@ -224,6 +264,12 @@ export default function Home() {
             <p className="text-blue-300/70 text-xs mt-0.5">AI-Powered Job Search Optimization</p>
           </div>
           <div className="ml-auto flex items-center gap-3">
+            <button
+              onClick={() => setShowResume(!showResume)}
+              className="text-xs bg-white/[0.06] hover:bg-white/[0.12] text-blue-200 px-3 py-1.5 rounded-lg transition-colors border border-white/[0.06]"
+            >
+              📄 Paste Resume
+            </button>
             {history.length > 0 && (
               <button
                 onClick={() => setShowHistory(!showHistory)}
@@ -257,6 +303,74 @@ export default function Home() {
                 <span className="text-white/40 text-xs ml-2">{h.timestamp}</span>
               </button>
             ))}
+          </div>
+        )}
+
+        {/* ── resume parser panel ── */}
+        {showResume && (
+          <div className="bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-4 space-y-3">
+            <div className="flex items-center justify-between">
+              <h3 className="text-white font-semibold text-sm">📄 Import Your Resume</h3>
+              <button onClick={() => setShowResume(false)} className="text-xs text-white/40 hover:text-white/60">
+                ✕ Close
+              </button>
+            </div>
+            <p className="text-blue-200/60 text-xs">
+              Upload a file or paste text — AI will extract your job title, skills, location, and experience to auto-fill the form.
+            </p>
+
+            {/* file upload */}
+            <div className="flex items-center gap-3">
+              <label className="flex-1 cursor-pointer">
+                <div className="border-2 border-dashed border-white/15 hover:border-blue-400/40 rounded-lg px-4 py-3 text-center transition-colors">
+                  <p className="text-blue-200 text-sm font-medium">
+                    {resumeFile ? resumeFile.name : "Click to upload PDF, DOCX, or TXT"}
+                  </p>
+                  <p className="text-white/30 text-xs mt-0.5">
+                    {resumeFile ? `${(resumeFile.size / 1024).toFixed(0)} KB` : "Max 5 MB"}
+                  </p>
+                </div>
+                <input
+                  type="file"
+                  accept=".pdf,.docx,.txt"
+                  className="hidden"
+                  onChange={(e) => {
+                    const f = e.target.files?.[0];
+                    if (f) { setResumeFile(f); setResumeText(""); }
+                  }}
+                />
+              </label>
+              {resumeFile && (
+                <button
+                  onClick={() => setResumeFile(null)}
+                  className="text-xs text-red-400 hover:text-red-300"
+                >
+                  Remove
+                </button>
+              )}
+            </div>
+
+            <div className="flex items-center gap-3">
+              <div className="flex-1 h-px bg-white/10" />
+              <span className="text-white/30 text-xs">or paste text</span>
+              <div className="flex-1 h-px bg-white/10" />
+            </div>
+
+            {/* text paste */}
+            <textarea
+              value={resumeText}
+              onChange={(e) => { setResumeText(e.target.value); setResumeFile(null); }}
+              placeholder="Paste your resume content here..."
+              rows={5}
+              className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-white/30 text-sm focus:outline-none focus:border-blue-400 resize-none"
+            />
+            <button
+              onClick={handleResumeParse}
+              disabled={resumeParsing || (!resumeText.trim() && !resumeFile)}
+              className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 disabled:from-blue-800 disabled:to-blue-800 disabled:cursor-not-allowed text-white font-semibold py-2 px-4 rounded-lg transition-all text-sm flex items-center"
+            >
+              {resumeParsing ? <><Spinner /> Extracting…</> : "Extract & Auto-Fill →"}
+            </button>
           </div>
         )}
 
